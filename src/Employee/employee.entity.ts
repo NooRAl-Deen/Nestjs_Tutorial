@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { StockEntity } from "src/Stock/stock.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EmployeeGender } from "./employee.gender.enum";
 import { EmployeeType } from "./employee.type.enum";
 
@@ -27,5 +28,19 @@ export class EmployeeEntity {
 
     @Column()
     gender: EmployeeGender
+
+    // Recursive Relation [ Manager & Employees ]
+    @OneToMany(() => EmployeeEntity, employee => employee.managerR, {onDelete: "SET NULL", onUpdate: "CASCADE"})
+    manager: EmployeeEntity
+
+    @ManyToOne(() => EmployeeEntity, employee => employee.manager, {onDelete: "SET NULL", onUpdate: "CASCADE"})
+    @JoinColumn({
+        name: "managerId"
+    })
+    managerR: EmployeeEntity
+
+    // 1 - M Relation Between [ Employee & Stocks ]
+    @OneToMany(() => StockEntity, stock => stock.employee, {onDelete: "SET NULL", onUpdate: "CASCADE"})
+    stock: StockEntity
 
 }
