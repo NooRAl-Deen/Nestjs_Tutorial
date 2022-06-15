@@ -24,5 +24,5 @@ export class StockEntity {
     @JoinColumn({
         name: "emp_stk_id",
     })
-    employee: EmployeeEntity
+    employeeId: number
 }
