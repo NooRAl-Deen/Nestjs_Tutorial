@@ -1,3 +1,4 @@
+import { BillEntity } from 'src/Bill/bill.entity';
 import { CustomerEntity } from 'src/Customer/customer.entity';
 import { StockEntity } from 'src/Stock/stock.entity';
 import {
@@ -60,6 +61,15 @@ export class EmployeeEntity {
   })
   stock: StockEntity;
 
-  @OneToMany(() => CustomerEntity, (customer) => customer.employeeId)
+  @OneToMany(() => CustomerEntity, (customer) => customer.employeeId, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   customer: CustomerEntity;
+
+  @OneToMany(() => BillEntity, (bill) => bill.employeeId, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  accountantId: number;
 }

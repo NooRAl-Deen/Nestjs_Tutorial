@@ -1,9 +1,11 @@
+import { BillEntity } from 'src/Bill/bill.entity';
 import { EmployeeEntity } from 'src/Employee/employee.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -27,9 +29,18 @@ export class CustomerEntity {
   @Column()
   street: string;
 
-  @ManyToOne(() => EmployeeEntity, (employee) => employee.customer)
+  @ManyToOne(() => EmployeeEntity, (employee) => employee.customer, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({
     name: 'employeeId',
   })
   employeeId: number;
+
+  @OneToMany(() => BillEntity, (bill) => bill.customerId, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  billId: number;
 }

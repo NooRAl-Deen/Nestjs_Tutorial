@@ -1,5 +1,6 @@
+import { BillEntity } from "src/Bill/bill.entity";
 import { EmployeeEntity } from "src/Employee/employee.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class StockEntity {
@@ -25,4 +26,10 @@ export class StockEntity {
         name: "emp_stk_id",
     })
     employeeId: number
+
+    @OneToOne(() => BillEntity, (bill) => bill.stockId, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      })
+    itemSn: number;
 }
